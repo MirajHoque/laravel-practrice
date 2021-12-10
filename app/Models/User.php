@@ -41,4 +41,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function phone(){
+        return $this->hasOne('App\Models\Phone');
+        //hasOne behind the seen run a query
+        //select * from Phone where user_id = 1;
+    }
+
+
+
 }
