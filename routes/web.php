@@ -19,5 +19,4 @@ Route::get('/', function () {
 });
 Route::get('/adduser', [UserController::class, 'insertRecords']);
 Route::get('/getphone/{id}', [UserController::class, 'fetchPhoneByUser']);
-Route::get('/getuser', [UserController::class, 'fetchUserByPhone']);
 
