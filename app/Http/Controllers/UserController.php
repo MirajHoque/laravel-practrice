@@ -28,9 +28,5 @@ class UserController extends Controller
         $data = User::find($id)->phone;
         return $data;
     }
-
-    function fetchUserByPhone(){
-        $data = Phone::with('user')->get();
-        return $data;
-    }
+    
 }
