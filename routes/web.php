@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SongController;
+use App\Http\Controllers\SingerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('addsong', [SongController::class, 'addSong']);
+Route::get('addsinger', [SingerController::class, 'addSinger']);
+Route::get('showsongs/{id}', [SongController::class, 'showSong']);
+Route::get('showsingers/{id}', [SingerController::class, 'showSinger']);
