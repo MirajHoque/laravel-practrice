@@ -14,10 +14,5 @@ class MechanicController extends Controller
         $mechanic->name = "Tom";
         $mechanic->save();
     }
-
-    //Get owner through mechanic
-
-    function owner(){
-        return $this->hasOneThrough(Owner::class, Car::class);
-    }
+  
 }
