@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CarController;
+use App\Http\Controllers\MechanicController;
+use App\Http\Controllers\OwnerController;
+use App\Models\Mechanic;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('addmechanic', [MechanicController::class, 'addMechanic']);
+Route::get('addcar/{id}', [CarController::class, 'addCar']);
+Route::get('addowner/{id}', [OwnerController::class, 'addOwner']);
+Route::get('showowner/{id}', [OwnerController::class, 'showOwner']);
