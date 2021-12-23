@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DeploymentController;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('addproject', [ProjectController::class, 'addProject']);
+Route::get('addlanguage/{id}', [LanguageController::class, 'addLanguage']);
+Route::get('adddeployment/{id}', [DeploymentController::class, 'addDeployment']);
+Route::get('showdeployment/{id}', [DeploymentController::class, 'showDeployment']);
