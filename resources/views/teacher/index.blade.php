@@ -28,6 +28,7 @@
                     <table class="table">
                         <thead>
                           <tr>
+                            <th scope="col">Id</th>
                             <th scope="col">Name</th>
                             <th scope="col">Title</th>
                             <th scope="col">Institute</th>
@@ -71,8 +72,8 @@
                             <label for="institute">Institute</label>
                             <input type="text" class="form-control" id="institute">
                           </div>
-                        <button id="addButton" type="submit" class="btn btn-primary">Add</button>
-                        <button id="updateButton" type="submit" class="btn btn-primary">Update</button>
+                        <button id="addButton" type="button" onclick="addData()" class="btn btn-primary">Add</button>
+                        <button id="updateButton" type="button" class="btn btn-primary">Update</button>
                       </form>
                 </div>
               </div>
@@ -123,6 +124,31 @@
     }
 
     allData();
+
+    function clearData(){
+      $("#name").val('');
+      $("#title").val('');
+      $("#institute").val('');
+    }
+
+    function addData(){
+      var name = $("#name").val();
+      var title = $("#title").val();
+      var institute = $("#institute").val();
+
+      $.ajax({
+        type: "POST",
+        dataType: 'json',
+        data: {name: name, title: title, institute: institute},
+        url: "/teacher/add",
+        success: function(data){
+          clearData();
+          console.log("successfully data added");
+          allData();
+        },
+      });
+    }
+      
 
    </script>
 
