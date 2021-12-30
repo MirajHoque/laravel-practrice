@@ -17,6 +17,12 @@ class TeacherController extends Controller
     }
 
      function addData(Request $req){
+         $req->validate([
+             'name' => 'required',
+             'title' => 'required',
+             'institute' => 'required',
+         ]);
+
          $teacher = Teacher::insert([
              'name' => $req->name,
              'title' => $req->title,
@@ -24,5 +30,10 @@ class TeacherController extends Controller
          ]);
          
          return response()->json($teacher);
+     }
+
+     function editTeacher($id){
+         $teacherInfo = Teacher::findorFail($id);
+         return response()->json($teacherInfo);
      }
 }

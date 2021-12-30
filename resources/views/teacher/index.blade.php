@@ -63,14 +63,17 @@
                         <div class="form-group">
                           <label for="name">Name</label>
                           <input type="text" class="form-control" id="name">
+                          <span class="text-danger" id="nameError"></span>
                         </div>
                         <div class="form-group">
                           <label for="title">Title</label>
                           <input type="text" class="form-control" id="title">
+                          <span class="text-danger" id="titleError"></span>
                         </div>
                         <div class="form-group">
                             <label for="institute">Institute</label>
                             <input type="text" class="form-control" id="institute">
+                            <span class="text-danger" id="instituteError"></span>
                           </div>
                         <button id="addButton" type="button" onclick="addData()" class="btn btn-primary">Add</button>
                         <button id="updateButton" type="button" class="btn btn-primary">Update</button>
@@ -94,7 +97,7 @@
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
-    
+    //get data using ajax
     function allData(){
         $.ajax({
             type: 'GET',
@@ -110,7 +113,7 @@
                      data = data + "<td>"+value.title+ "</td>"
                      data = data + "<td>"+value.institute+ "</td>"
                      data = data + "<td>"
-                     data = data + "<button class='btn btn-md bg-success mr-2'><i class='fa-solid fa-square-pen'></i></button>"
+                     data = data + "<button class='btn btn-md bg-success mr-2' onclick='editTeacher("+value.id+")'><i class='fa-solid fa-square-pen'></i></button>"
                      data = data + " <button class='btn btn-md bg-danger'><i class='fa-solid fa-trash'></i></button>"
                      data = data + "</td>"
                      data = data + "</tr>"
@@ -124,13 +127,18 @@
     }
 
     allData();
-
+  
+  //clear input field
     function clearData(){
       $("#name").val('');
       $("#title").val('');
       $("#institute").val('');
+      $("#nameError").text('')
+      $("#titleError").text('')
+      $("#instituteError").text('')
     }
-
+ 
+    //post data using ajax
     function addData(){
       var name = $("#name").val();
       var title = $("#title").val();
@@ -146,8 +154,33 @@
           console.log("successfully data added");
           allData();
         },
+        error: function(err){
+          $("#nameError").text(err.responseJSON.errors.name)
+          $("#titleError").text(err.responseJSON.errors.title)
+          $("#instituteError").text(err.responseJSON.errors.institute)
+        //  console.log(err.responseJSON.errors.name);
+        //  console.log(err.responseJSON.errors.title);
+        //  console.log(err.responseJSON.errors.institute);
+        }
       });
     }
+
+    //edit using ajax
+    function editTeacher(id){
+      $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: "teacher/edit/"+id,
+        success: function(data){
+          $("#name").val(data.name);
+          $("#title").val(data.title);
+          $("#institute").val(data.institute);
+          
+          //console.log(data);
+        }
+      })
+    }
+
       
 
    </script>
