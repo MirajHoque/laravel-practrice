@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- csrf token meta for ajax-->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- sweetalert2-->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- BS4 & Jquery-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -93,6 +97,15 @@
        $("#addButton").show();
        $("#updateButton").hide();
 
+       //sweetalert2
+       var alertMsg = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1500
+          })
+
        $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -115,7 +128,7 @@
                      data = data + "<td>"+value.institute+ "</td>"
                      data = data + "<td>"
                      data = data + "<button class='btn btn-md bg-success mr-2' onclick='editTeacher("+value.id+")'><i class='fa-solid fa-square-pen'></i></button>"
-                     data = data + " <button class='btn btn-md bg-danger'><i class='fa-solid fa-trash'></i></button>"
+                     data = data + "<button class='btn btn-md bg-danger' onclick='deleteTeacher("+value.id+")'><i class='fa-solid fa-trash'></i></button>"
                      data = data + "</td>"
                      data = data + "</tr>"
                 });
@@ -153,7 +166,11 @@
         url: "/teacher/add",
         success: function(data){
           clearData();
-          console.log("successfully data added");
+          //firing sweetalert2          
+          alertMsg.fire({
+            title: 'Data added successfully'
+          })
+
           allData();
         },
         error: function(err){
@@ -212,7 +229,11 @@
           $("#addButton").show();
           $("#updateButton").hide();
           
-          console.log("data updated");
+           //firing sweetalert2          
+           alertMsg.fire({
+            title: 'Data updated successfully'
+          })
+
           allData();
         },
         error: function(err){
@@ -221,6 +242,44 @@
           $("#instituteError").text(err.responseJSON.errors.institute)
         }
       });
+    }
+
+    //Delete data using ajax
+
+    function deleteTeacher(id){
+      Swal.fire({
+        //
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      //
+      if (result.isConfirmed) {
+        $.ajax({
+          type: 'GET',
+          dataType: 'json',
+          url: "/teacher/delete/"+id,
+          success: function(data){
+            clearData();
+              $("#addTeacher").show();
+              $("#updateTeacher").hide();
+              $("#addButton").show();
+              $("#updateButton").hide();
+              
+              //firing sweetalert2          
+              alertMsg.fire({
+                title: 'Deleted successfully'
+              })
+
+              allData();
+          }
+        })
+      }
+})
     }
 
    </script>

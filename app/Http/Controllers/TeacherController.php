@@ -52,4 +52,10 @@ class TeacherController extends Controller
         
         return response()->json($teacher);
      }
+
+     function deleteTeacher($id){
+        $teacher = Teacher::findOrFail($id);
+        $teacher->delete();
+        return response()->json();
+     }
 }
