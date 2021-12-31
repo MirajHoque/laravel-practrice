@@ -75,8 +75,9 @@
                             <input type="text" class="form-control" id="institute">
                             <span class="text-danger" id="instituteError"></span>
                           </div>
+                          <input type="hidden" name="" id="id">
                         <button id="addButton" type="button" onclick="addData()" class="btn btn-primary">Add</button>
-                        <button id="updateButton" type="button" class="btn btn-primary">Update</button>
+                        <button id="updateButton" type="button" onclick ="updateTeacher()" class="btn btn-primary">Update</button>
                       </form>
                 </div>
               </div>
@@ -133,6 +134,7 @@
       $("#name").val('');
       $("#title").val('');
       $("#institute").val('');
+
       $("#nameError").text('')
       $("#titleError").text('')
       $("#instituteError").text('')
@@ -165,23 +167,61 @@
       });
     }
 
-    //edit using ajax
+    //edit data using ajax
     function editTeacher(id){
       $.ajax({
         type: 'GET',
         dataType: 'json',
         url: "teacher/edit/"+id,
         success: function(data){
+          $("#addTeacher").hide();
+          $("#updateTeacher").show();
+          $("#addButton").hide();
+          $("#updateButton").show();
+
+          $("#id").val(data.id);
           $("#name").val(data.name);
           $("#title").val(data.title);
           $("#institute").val(data.institute);
+
+          $("#nameError").text('')
+          $("#titleError").text('')
+          $("#instituteError").text('')
           
           //console.log(data);
         }
       })
     }
 
-      
+    //update data using ajax
+    function updateTeacher(){
+      var id = $("#id").val();
+      var name = $("#name").val();
+      var title = $("#title").val();
+      var institute = $("#institute").val();
+
+      $.ajax({
+        type: "POST",
+        dataType: 'json',
+        data : {name: name, title: title, institute: institute},
+        url: "/teacher/update/"+id,
+        success: function(data){
+          clearData();
+          $("#addTeacher").show();
+          $("#updateTeacher").hide();
+          $("#addButton").show();
+          $("#updateButton").hide();
+          
+          console.log("data updated");
+          allData();
+        },
+        error: function(err){
+          $("#nameError").text(err.responseJSON.errors.name)
+          $("#titleError").text(err.responseJSON.errors.title)
+          $("#instituteError").text(err.responseJSON.errors.institute)
+        }
+      });
+    }
 
    </script>
 
