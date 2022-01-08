@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Services\Geolocation\Geolocation;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    //call service rom container using global app() helper function 
+    //dd(app(\App\Services\Geolocation\Geolocation::class));
+    //dd(app(Geolocation::class));
+
+    //call service from container using map() from app instance
+    //dd(app()->make(App\Services\Geolocation\Geolocation::class));
+    //dd(app()->make(Geolocation::class));
+
+    //acess service method
+    $geolocation = app(Geolocation::class)->search('xyz');
+    dd($geolocation);
+   
+    //return view('welcome');
 });
