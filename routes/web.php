@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Services\Geolocation\Geolocation;
+use App\Services\Geolocation\GeolocationFacade;
+use App\Playground;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +26,11 @@ Route::get('/', function () {
     //dd(app()->make(Geolocation::class));
 
     //acess service method
-    $geolocation = app(Geolocation::class)->search('xyz');
-    dd($geolocation);
+    //$geolocation = app(Geolocation::class)->search('xyz');
+    //dd($geolocation);
+
+    app(Playground::class);
+
    
     //return view('welcome');
 });
