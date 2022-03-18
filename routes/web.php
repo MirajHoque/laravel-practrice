@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('customer', [CustomerController::class, 'customer']);
+Route::get('customer/trash-list', [CustomerController::class, 'trashed']);
+
+Route::get('customer/delete/{id}', [CustomerController::class, 'delete']);
+Route::get('customer/restore/{id}', [CustomerController::class, 'restore']);
+Route::get('customer/permanent/delete/{id}', [CustomerController::class, 'PermanentDelete']);
